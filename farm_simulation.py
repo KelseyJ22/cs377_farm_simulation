@@ -20,7 +20,7 @@ class Farm:
 
 
 	def log_state(self):
-		return 'pesticide:' + str(self.pesticide) + '\nfertilizer:' + str(self.fertilizer) + '\nmoney:' + str(self.money) + '\npond_alive:' + str(self.pond_alive) + '\nfield_alive:' + str(self.field_alive) + '\nalgae:' + str(self.algae)
+		return 'pesticides applied: ' + str(self.pesticide) + '\nfertilizer applied: ' + str(self.fertilizer) + '\nmoney: $' + str(self.money) + '\npond_alive: ' + str(self.pond_alive) + '\nfield_alive: ' + str(self.field_alive) + '\nalgae: ' + str(self.algae)
 
 
 	def run_round(self):
@@ -52,7 +52,6 @@ class Farm:
 
 		if random.randint(0, rand) == 0:
 			self.field_alive = False
-
 
 		print(self.log_state())
 
@@ -131,12 +130,18 @@ class Farm:
 			pond.setFill('red')
 		pond.draw(self.window)
 
-		field = Rectangle(Point(25, 250), Point(275, 500))
+		field = Rectangle(Point(25, 250), Point(275, 490))
 		if self.field_alive:
 			field.setFill('green')
 		else:
 			field.setFill('brown')
 		field.draw(self.window)
+
+		clear = Rectangle(Point(300, 5), Point(500, 100))
+		clear.setFill('white')
+		clear.draw(self.window)
+		results = Text(Point(400, 50), farm.log_state())
+		results.draw(self.window)
 
 
 def conclusion(farm, win):
@@ -159,9 +164,12 @@ def conclusion(farm, win):
 
 
 farm = Farm()
-for i in range(0, 3):
+for i in range(0, 5):
 	print('ROUND', i)
 	farm.run_round()
+	if not farm.field_alive:
+		conclusion(farm, win=False)
+		break
 
 if farm.pond_alive and farm.money > 10 and farm.field_alive:
 	conclusion(farm, win=True)
