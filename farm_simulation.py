@@ -5,7 +5,7 @@ from time import sleep
 
 class Farm:
 	def __init__(self):
-		self.window = GraphWin()
+		self.window = GraphWin('Farm', 500, 500)
 		self.pesticide = False
 		self.fertilizer = False
 		self.money = 0
@@ -14,9 +14,9 @@ class Farm:
 		self.field_alive = True
 		self.buttons = dict()
 		self.window.autoflush = False
-		self.buttons['pesticide'] = [Point(100, 100), Point(200, 150)]
-		self.buttons['fertilizer'] = [Point(100, 125), Point(200, 145)]
-		self.buttons['GO'] = [Point(100, 50), Point(200, 80)]
+		self.buttons['pesticide'] = [Point(325, 300), Point(500, 350)]
+		self.buttons['fertilizer'] = [Point(325, 350), Point(500, 400)]
+		self.buttons['GO'] = [Point(325, 400), Point(500, 450)]
 
 
 	def log_state(self):
@@ -92,7 +92,6 @@ class Farm:
 		sleep(0.5)
 
 
-
 	def refresh_buttons(self):
 		pesticide = Rectangle(self.buttons['pesticide'][0], self.buttons['pesticide'][1])
 		pesticide.setFill('white')
@@ -101,7 +100,7 @@ class Farm:
 		else:
 			pesticide.setOutline('black')
 		pesticide.draw(self.window)
-		pesticide_label = Text(Point(100, 110), 'toggle pesticide')
+		pesticide_label = Text(Point(412, 325), 'pesticides on/off')
 		pesticide_label.draw(self.window)
 
 		fertilizer = Rectangle(self.buttons['fertilizer'][0], self.buttons['fertilizer'][1])
@@ -111,28 +110,28 @@ class Farm:
 		else:
 			fertilizer.setOutline('black')
 		fertilizer.draw(self.window)
-		fertilizer_label = Text(Point(100, 135), 'toggle fertilizer')
+		fertilizer_label = Text(Point(412, 375), 'fertilizer on/off')
 		fertilizer_label.draw(self.window)
 
 		go = Rectangle(self.buttons['GO'][0], self.buttons['GO'][1])
 		go.setFill('white')
 		go.setOutline('black')
 		go.draw(self.window)
-		go = Text(Point(100, 65), 'run simulation')
+		go = Text(Point(412, 425), 'run simulation')
 		go.draw(self.window)
 
 
 	def display(self):
 		self.refresh_buttons()
 
-		pond = Circle(Point(50, 50), 25)
+		pond = Circle(Point(150, 125), 100)
 		if self.pond_alive:
 			pond.setFill('blue')
 		else:
 			pond.setFill('red')
 		pond.draw(self.window)
 
-		field = Rectangle(Point(100, 25), Point(80, 25))
+		field = Rectangle(Point(25, 250), Point(275, 500))
 		if self.field_alive:
 			field.setFill('green')
 		else:
@@ -141,18 +140,18 @@ class Farm:
 
 
 def conclusion(farm, win):
-	window = GraphWin()
+	window = GraphWin('Conclusion', 500, 500)
 	if win:
-		label = Text(Point(100, 100), 'YOU WIN!')
+		label = Text(Point(250, 50), 'YOU WIN!')
 	else:
-		label = Text(Point(100, 100), 'YOU LOSE!')
+		label = Text(Point(250, 50), 'YOU LOSE!')
 
 	label.draw(window)
 
-	results = Text(Point(0,0), farm.log_state())
+	results = Text(Point(100, 100), farm.log_state())
 	results.draw(window)
 
-	message = Text(Point(window.getWidth()/2, 20), 'Click anywhere to quit.')
+	message = Text(Point(400, 400), 'Click anywhere to quit.')
 	message.draw(window)
 	window.getMouse()
 	window.close()
