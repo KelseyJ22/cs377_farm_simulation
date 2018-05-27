@@ -183,6 +183,14 @@ class Farm:
 		img.draw(self.window)
 		self.draw_buttons()
 
+		state = farm.log_state()
+		print(state)
+		text = Text(Point(130, 130), state)
+		text.setFace('helvetica')
+		text.setSize(15)
+		text.draw(farm.window)
+
+
 
 def conclusion(farm, win):
 	background = Rectangle(Point(0, 0), Point(1500, 844))
@@ -209,13 +217,6 @@ farm = Farm()
 for i in range(0, 5):
 	print('ROUND', i)
 	farm.run_round()
-
-	state = farm.log_state()
-	print(state)
-	text = Text(Point(400, 400), state)
-	text.setFace('helvetica')
-	text.setSize(20)
-	text.draw(farm.window)
 
 	if farm.field_health <= 0 and farm.money <= 300:
 		conclusion(farm, win=False)
