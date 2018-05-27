@@ -132,7 +132,7 @@ class Farm:
 				text.setSize(20)
 				text.draw(self.window)
 				break
-				
+
 			self.handle_buttons(click)
 
 		self.window.flush()
@@ -208,6 +208,10 @@ class Farm:
 		img.draw(self.window)
 		self.draw_buttons()
 
+		self.show_status()
+
+
+	def show_status(self):
 		algae_percent = 0
 		if self.algae_coverage >= 4:
 			algae_percent = 25
@@ -266,21 +270,25 @@ class Farm:
 
 
 def conclusion(farm, win):
-	background = Rectangle(Point(0, 0), Point(1500, 844))
-	background.setFill('white')
-	background.draw(farm.window)
+	img = Image(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'farm-empty.png')
+	img.draw(farm.window)
 	if win:
-		label = Text(Point(250, 50), 'YOU WIN!')
+		label = Text(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'YOU WIN!')
 	else:
-		label = Text(Point(250, 50), 'YOU LOSE!')
+		label = Text(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'YOU LOSE!')
 
+	label.setSize(20)
+	label.setFace('helvetica')
+	label.setStyle('bold')
 	label.draw(farm.window)
 
-	results = Text(Point(100, 100), farm.log_state())
-	results.draw(farm.window)
-
-	message = Text(Point(400, 400), 'Click anywhere to quit.')
+	message = Text(Point(1000, 800), 'Click anywhere to quit.')
+	message.setSize(20)
+	message.setFace('helvetica')
+	message.setStyle('bold')
 	message.draw(farm.window)
+
+	farm.show_status()
 
 	farm.window.getMouse()
 	farm.window.close()
