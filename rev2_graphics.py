@@ -1,7 +1,20 @@
 from graphics import *
 import random
-from time import sleep
+import time
 
+#==================#
+# HELPER FUNCTIONS #
+#==================#
+
+# Pauses the program for specified number of seconds without making the
+# process sleep (which can interfere with garphics). Finest granularity
+# is .2 seconds
+def pause(seconds):
+	start = time.perf_counter()
+	while time.perf_counter() - start < seconds:
+		res = 1000003007 * 1007000401
+
+#==================#
 
 class Farm:
 	def __init__(self):
@@ -107,12 +120,22 @@ class Farm:
 		while(True):
 			click = self.window.getMouse()
 			if self.in_button(click, self.buttons['GO']):
-				print('breaking')
+				print('running round')
+				year = Rectangle(Point(0, 0), Point(self.window.getWidth(), self.window.getHeight()))
+				year.setFill('black')
+				year.draw(self.window)
+
+				text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'Running one year...')
+				text.setStyle('bold')
+				text.setFace('helvetica')
+				text.setTextColor('white')
+				text.setSize(20)
+				text.draw(self.window)
 				break
+				
 			self.handle_buttons(click)
 
 		self.window.flush()
-		sleep(0.5)
 
 
 	def draw_buttons(self):
