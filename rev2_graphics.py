@@ -142,6 +142,8 @@ class Farm:
 
 		text = Text(Point(1000, 760), 'RUN ONE YEAR')
 		text.setSize(25)
+		text.setStyle('bold')
+		text.setTextColor('white')
 		text.setFace('helvetica')
 		text.draw(self.window)
 
@@ -183,13 +185,61 @@ class Farm:
 		img.draw(self.window)
 		self.draw_buttons()
 
-		state = farm.log_state()
-		print(state)
-		text = Text(Point(130, 130), state)
-		text.setFace('helvetica')
-		text.setSize(15)
-		text.draw(farm.window)
+		algae_percent = 0
+		if self.algae_coverage >= 4:
+			algae_percent = 25
+		elif self.algae_coverage >= 8:
+			algae_percent = 50
+		elif self.algae_coverage >= 16:
+			algae_percent = 100 
+		state = 'FARM STATE \nPesticides applied: \nFertilizer applied: \nMoney: $' + str(self.money) + '\nPond health: \nField health: \nAlgae coverage: ' + str(algae_percent) + '%'
 
+		text = Text(Point(110, 110), state)
+		text.setFace('helvetica')
+		text.setSize(20)
+		text.draw(self.window)
+
+		if self.pesticide:
+			img = Image(Point(205, 65), 'checkmark.png')
+		else:
+			img = Image(Point(205, 65), 'x.png')
+		img.draw(self.window)
+
+		if self.fertilizer:
+			img = Image(Point(200, 88), 'checkmark.png')
+		else:
+			img = Image(Point(200, 88), 'x.png')
+		img.draw(self.window)
+
+		health_background = Rectangle(Point(170, 125), Point(240, 140))
+		health_background.draw(self.window)
+
+		pond = Rectangle(Point(170, 125), Point(240, 140))
+		print('pond health:', self.pond_health)
+		if self.pond_health < 20:
+			pond = Rectangle(Point(170, 125), Point(180, 140))
+		elif self.pond_health < 50:
+			pond = Rectangle(Point(170, 125), Point(200, 140))
+		elif self.pond_health < 80:
+			pond = Rectangle(Point(170, 125), Point(220, 140))
+
+		pond.setFill('black')
+		pond.draw(self.window)
+
+		health_background = Rectangle(Point(170, 148), Point(240, 163))
+		health_background.draw(self.window)
+
+		field = Rectangle(Point(170, 148), Point(240, 163))
+		print('field health:', self.field_health)
+		if self.field_health < 20:
+			field = Rectangle(Point(170, 148), Point(180, 163))
+		elif self.field_health < 50:
+			field = Rectangle(Point(170, 148), Point(200, 163))
+		elif self.field_health < 80:
+			field = Rectangle(Point(170, 148), Point(220, 163))
+
+		field.setFill('black')
+		field.draw(self.window)
 
 
 def conclusion(farm, win):
