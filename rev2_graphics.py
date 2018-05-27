@@ -5,7 +5,8 @@ from time import sleep
 
 class Farm:
 	def __init__(self):
-		self.window = GraphWin('Farm', 1920, 1080)
+		self.window = GraphWin('Farm', 1500, 844)
+		self.first_round = True
 		self.mono = False
 		self.pesticide = False
 		self.fertilizer = False
@@ -15,10 +16,11 @@ class Farm:
 		self.field_health = 100
 		self.buttons = dict()
 		self.window.autoflush = False
-		self.buttons['mono_poly'] = [Point(325, 250), Point(500, 300)]
-		self.buttons['pesticide'] = [Point(325, 300), Point(500, 350)]
-		self.buttons['fertilizer'] = [Point(325, 350), Point(500, 400)]
-		self.buttons['GO'] = [Point(325, 400), Point(500, 450)]
+		# TODO: fix the dimensions here
+		self.buttons['mono_poly'] = [Point(1150, 90), Point(1350, 200)]
+		self.buttons['pesticide'] = [Point(700, 90), Point(800, 200)]
+		self.buttons['fertilizer'] = [Point(950, 90), Point(1050, 200)]
+		self.buttons['GO'] = [Point(950, 740), Point(1050, 780)]
 
 
 	def log_state(self):
@@ -28,6 +30,8 @@ class Farm:
 	def run_round(self):
 		self.display()
 		self.make_choices()
+
+		self.first_round = False
 
 		if self.mono:
 			self.money += 200
@@ -56,8 +60,6 @@ class Farm:
 		if self.field_health == 0:
 			self.money -= 300
 
-		print(self.log_state())
-
 
 	def in_button(self, loc, button):
 		if loc.getX() <= button[1].getX() and loc.getX() >= button[0].getX():
@@ -70,21 +72,35 @@ class Farm:
 	def handle_buttons(self, click):
 		if self.in_button(click, self.buttons['pesticide']):
 			if self.pesticide:
+				img = Image(Point(750, 130), 'pesticide.png')
 				self.pesticide = False
+				img.draw(self.window)
 			else:
+				img = Image(Point(750, 130), 'pesticide-selected.png')
 				self.pesticide = True
+				img.draw(self.window)
+
 		elif self.in_button(click, self.buttons['fertilizer']):
 			if self.fertilizer:
+				img = Image(Point(1000, 130), 'fertilize.png')
 				self.fertilizer = False
+				img.draw(self.window)
+
 			else:
+				img = Image(Point(1000, 130), 'fertilize-selected.png')
 				self.fertilizer = True
+				img.draw(self.window)
+
 		elif self.in_button(click, self.buttons['mono_poly']):
 			if self.mono:
+				img = Image(Point(1250, 130), 'mono.png')
 				self.mono = False
-			else:
-				self.mono = True
+				img.draw(self.window)
 
-		self.refresh_buttons()
+			else:
+				img = Image(Point(1250, 130), 'poly.png')
+				self.mono = True
+				img.draw(self.window)
 
 
 	def make_choices(self):
@@ -99,69 +115,77 @@ class Farm:
 		sleep(0.5)
 
 
-	def refresh_buttons(self):
-		mono_poly = Rectangle(self.buttons['mono_poly'][0], self.buttons['mono_poly'][1])
-		mono_poly.setFill('white')
-		if self.mono:
-			mono_poly_label = Text(Point(412, 275), 'Switch to Polyculture')
-		else:
-			mono_poly_label = Text(Point(412, 275), 'Switch to Monoculture')
-		mono_poly.draw(self.window)
-		mono_poly_label.draw(self.window)
+	def draw_buttons(self):
+		img = Image(Point(750, 130), 'pesticide.png')
+		img.draw(self.window)
 
+		text = Text(Point(750, 240), 'Pesticides will help your crops \n grow stronger, but will damage your \n land and pond in the long run.')
+		text.setSize(16)
+		text.setFace('helvetica')
+		text.draw(self.window)
 
-		pesticide = Rectangle(self.buttons['pesticide'][0], self.buttons['pesticide'][1])
-		pesticide.setFill('white')
-		if self.pesticide:
-			pesticide_label = Text(Point(412, 325), 'Do Not Apply Pesticides')
-		else:
-			pesticide_label = Text(Point(412, 325), 'Apply Pesticides')
-		pesticide.draw(self.window)
-		pesticide_label.draw(self.window)
+		img = Image(Point(1000, 130), 'fertilize.png')
+		img.draw(self.window)
 
-		fertilizer = Rectangle(self.buttons['fertilizer'][0], self.buttons['fertilizer'][1])
-		fertilizer.setFill('white')
-		if self.fertilizer:
-			fertilizer_label = Text(Point(412, 375), 'Do Not Apply Fertilizer')
-		else:
-			fertilizer_label = Text(Point(412, 375), 'Apply Fertilizer')
-		fertilizer.draw(self.window)
-		fertilizer_label.draw(self.window)
+		text = Text(Point(1000, 240), 'Fertilizer will help your crops \n grow stronger, but could lead \n to an algae bloom in your pond.')
+		text.setSize(16)
+		text.setFace('helvetica')
+		text.draw(self.window)
 
-		go = Rectangle(self.buttons['GO'][0], self.buttons['GO'][1])
-		go.setFill('white')
-		go.setOutline('black')
-		go.draw(self.window)
-		go = Text(Point(412, 425), 'run simulation')
-		go.draw(self.window)
+		img = Image(Point(1250, 130), 'poly.png')
+		img.draw(self.window)
+
+		text = Text(Point(1250, 240), 'Monoculture farming will earn \n more money, but will \n damage the land over time.')
+		text.setSize(16)
+		text.setFace('helvetica')
+		text.draw(self.window)
+
+		text = Text(Point(1000, 760), 'RUN ONE YEAR')
+		text.setSize(25)
+		text.setFace('helvetica')
+		text.draw(self.window)
 
 
 	def display(self):
-		self.refresh_buttons()
+		if self.first_round:
+			img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'farm-empty.png')
 
-		pond = Circle(Point(150, 125), 100)
-		if self.pond_health > 0:
-			pond.setFill('blue')
-		else:
-			pond.setFill('red')
-		pond.draw(self.window)
+		elif self.mono: # monoculture
+			if self.pond_health > 50: # pond is healthy
+				if self.field_health > 50: # field is healthy
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'mono-good.png')
+				elif self.field_health < 20: # field is dead
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'mono-dead.png')
+				else: # field is sick
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'mono-bad.png')
+			else: # pond is sick
+				if self.field_health > 50: # field is healthy
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'mono-algae.png')
+				else: # field is sick
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'mono-bad-algae.png')
+				# TODO: need an image for dead pond and dead field
 
-		field = Rectangle(Point(25, 250), Point(275, 490))
-		if self.field_health > 20:
-			field.setFill('green')
-		else:
-			field.setFill('brown')
-		field.draw(self.window)
+		else: # polyculture
+			if self.pond_health > 50: # pond is healthy
+				if self.field_health > 50: # field is healthy
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'poly-good.png')
+				elif self.field_health < 20: # field is dead
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'poly-dead.png')
+				else: # field is sick
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'poly-bad.png')
+			else: # pond is sick
+				if self.field_health > 50: # field is healthy
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'poly-algae.png')
+				else: # field is sick
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'poly-bad-algae.png')
+				# TODO: need an image for dead pond and dead field
 
-		clear = Rectangle(Point(300, 5), Point(500, 150))
-		clear.setFill('white')
-		clear.draw(self.window)
-		results = Text(Point(400, 75), farm.log_state())
-		results.draw(self.window)
+		img.draw(self.window)
+		self.draw_buttons()
 
 
 def conclusion(farm, win):
-	background = Rectangle(Point(0, 0), Point(1920, 1080))
+	background = Rectangle(Point(0, 0), Point(1500, 844))
 	background.setFill('white')
 	background.draw(farm.window)
 	if win:
@@ -185,6 +209,14 @@ farm = Farm()
 for i in range(0, 5):
 	print('ROUND', i)
 	farm.run_round()
+
+	state = farm.log_state()
+	print(state)
+	text = Text(Point(400, 400), state)
+	text.setFace('helvetica')
+	text.setSize(20)
+	text.draw(farm.window)
+
 	if farm.field_health <= 0 and farm.money <= 300:
 		conclusion(farm, win=False)
 		break
