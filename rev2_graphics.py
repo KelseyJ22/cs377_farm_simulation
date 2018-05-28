@@ -227,15 +227,15 @@ class Farm:
 		text.draw(self.window)
 
 		if self.pesticide:
-			img = Image(Point(205, 65), 'checkmark.png')
+			img = Image(Point(205, 65), 'checkmark_transparent.png')
 		else:
-			img = Image(Point(205, 65), 'x.png')
+			img = Image(Point(205, 65), 'x_transparent.png')
 		img.draw(self.window)
 
 		if self.fertilizer:
-			img = Image(Point(200, 88), 'checkmark.png')
+			img = Image(Point(200, 88), 'checkmark_transparent.png')
 		else:
-			img = Image(Point(200, 88), 'x.png')
+			img = Image(Point(200, 88), 'x_transparent.png')
 		img.draw(self.window)
 
 		health_background = Rectangle(Point(170, 125), Point(240, 140))
