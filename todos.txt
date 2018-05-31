@@ -1,2 +1,9 @@
-- figure out coordinates
-- figure out background of status section
+- add opening screen telling what to do
+- add labels on buttons
+- fix bug with mono/poly buttons
+- add more information about how choices affected money/health (why)
+- add summary of money and health
+- add conclusion screen about takeaways
+- make cuter win/lose icons
+- add which year you're in
+- add "click to close" label on summary 
