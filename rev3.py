@@ -7,7 +7,7 @@ import time
 #==================#
 
 # Pauses the program for specified number of seconds without making the
-# process sleep (which can interfere with garphics). Finest granularity
+# process sleep (which can interfere with graphics). Finest granularity
 # is .2 seconds
 def pause(seconds):
 	start = time.perf_counter()
@@ -32,7 +32,7 @@ class Farm:
 		self.buttons['pesticide'] = [Point(700, 90), Point(800, 200)]
 		self.buttons['fertilizer'] = [Point(950, 90), Point(1050, 200)]
 		self.buttons['GO'] = [Point(950, 740), Point(1050, 780)]
-		self.summary = {'money':[], 'farm health':[], 'pond health':[], 'algae':[]}
+		self.summary = {'money':[], 'field health':[], 'pond health':[], 'algae':[]}
 
 
 	def log_state(self):
@@ -44,59 +44,82 @@ class Farm:
 		img.draw(self.window)
 
 		# monoculture or polyculture selection
-		rectangle_dimensions = TODO
-		rectangle = Rectangle(rectangle_dimensions)
+		rectangle_dimensions = [Point(self.window.getWidth()/2-260, self.window.getHeight()/2-150), Point(self.window.getWidth()/2+260, self.window.getHeight()/2+150)]
+		rectangle = Rectangle(rectangle_dimensions[0], rectangle_dimensions[1])
+		rectangle.setFill('white')
+		rectangle.setOutline('white')
 		rectangle.draw(self.window)
-		mono = Image(TODO, 'gif/mono.gif')
+		mono = Image(Point(self.window.getWidth()/2-120, self.window.getHeight()/2), 'gif/mono.gif')
 		mono.draw(self.window)
-		poly = Image(TODO, 'gif/poly.gif')
+		poly = Image(Point(self.window.getWidth()/2+120, self.window.getHeight()/2), 'gif/poly.gif')
 		poly.draw(self.window)
-		if self.in_button(TODO_mono_dimensions):
-			self.mono = True
-		if self.in_button(TODO_poly_dimensions):
-			self.mono = False
+		while(True):
+			click = self.window.getMouse()
+			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-50), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
+				self.mono = True
+				break
+			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-50), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
+				self.mono = False
+				break
 
 		# pesticide selection
+		rectangle = Rectangle(rectangle_dimensions[0], rectangle_dimensions[1])
+		rectangle.setFill('white')
+		rectangle.setOutline('white')
 		rectangle.draw(self.window)
-		pest_yes = Image(TODO, 'gif/pest-yes.gif')
+		pest_yes = Image(Point(self.window.getWidth()/2-110, self.window.getHeight()/2), 'gif/pest-yes.gif')
 		pest_yes.draw(self.window)
-		pest_no = Image(TODO, 'gif/pest-no.gif')
+		pest_no = Image(Point(self.window.getWidth()/2+110, self.window.getHeight()/2), 'gif/pest-no.gif')
 		pest_no.draw(self.window)
-		if self.in_button(TODO_pest_yes_dimensions):
-			self.pesticide = True
-		if self.in_button(TODO_pest_no_dimensions):
-			self.pesticide = False
+		while(True):
+			click = self.window.getMouse()
+			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-50), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
+				self.pesticide = True
+				break
+			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-50), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
+				self.pesticide = False
+				break
 
 
 		# fertilizer selection
+		rectangle = Rectangle(rectangle_dimensions[0], rectangle_dimensions[1])
+		rectangle.setFill('white')
+		rectangle.setOutline('white')
 		rectangle.draw(self.window)
-		fert_yes = Image(TODO, 'gif/fert-yes.gif')
+		fert_yes = Image(Point(self.window.getWidth()/2-110, self.window.getHeight()/2), 'gif/fert-yes.gif')
 		fert_yes.draw(self.window)
-		fert_no = Image(TODO, 'gif/fert-no.gif')
+		fert_no = Image(Point(self.window.getWidth()/2+110, self.window.getHeight()/2), 'gif/fert-no.gif')
 		fert_no.draw(self.window)
-		if self.in_button(TODO_fert_yes_dimensions):
-			self.pesticide = True
-		if self.in_button(TODO_fert_no_dimensions):
-			self.pesticide = False
+		while(True):
+			click = self.window.getMouse()
+			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-50), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
+				self.pesticide = True
+				break
+			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-50), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
+				self.pesticide = False
+				break
 
 
 		# run round
-		rectangle.draw(self.window)
-		button = Image(TODO)
+		img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/farm-empty.gif')
+		img.draw(self.window)
+		button = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/run_button.gif')
 		button.draw(self.window)
-		if self.in_button(rectangle_dimensions):
-			year = Rectangle(Point(0, 0), Point(self.window.getWidth(), self.window.getHeight()))
-			year.setFill('black')
-			year.draw(self.window)
+		while(True):
+			click = self.window.getMouse()
+			if self.in_button(click, [Point(self.window.getWidth()/2-260, self.window.getHeight()/2-50), Point(self.window.getWidth()/2+260, self.window.getHeight()/2+50)]):
+				"""year = Rectangle(Point(0, 0), Point(self.window.getWidth(), self.window.getHeight()))
+				year.setFill('black')
+				year.draw(self.window)
 
-			text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'Running one year...')
-			text.setStyle('bold')
-			text.setFace('helvetica')
-			text.setTextColor('white')
-			text.setSize(20)
-			text.draw(self.window)
-			self.window.flush()
-			pause()
+				text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'Running one year...')
+				text.setStyle('bold')
+				text.setFace('helvetica')
+				text.setTextColor('white')
+				text.setSize(20)
+				text.draw(self.window)
+				#self.window.flush()"""
+				break
 
 		self.run_year()
 		self.display_summary()
@@ -150,30 +173,34 @@ class Farm:
 
 
 	def display_summary(self):
-		background = Rectangle(TODO)
+		background = Rectangle(Point(self.window.getWidth()/2-500, self.window.getHeight()/2-500), Point(self.window.getWidth()/2+500, self.window.getHeight()/2+500))
+		background.setFill('white')
+		background.setOutline('white')
 		background.draw(self.window)
 		text = ''
 		for key in self.summary:
-			text += key + ':'
-			for info in self.summary[key]:
-				text += info + '\n'
+			text += key.upper() + ': \n'
+			if len(self.summary[key]) == 0:
+				text += 'no change this iteration'
+			else:
+				for info in self.summary[key]:
+					text += info + '\n'
 			text += '\n'
 
-		message = Text(TODO, text)
-		message.setSize(15)
-		message.setStyle('helvetica')
+		message = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2), text)
+		message.setSize(30)
+		message.setFace('helvetica')
 		message.draw(self.window)
 
 		self.summary = {'money':[], 'farm health':[], 'pond health':[], 'algae':[]} # reset for next round
 		
-		message = Text(TODO, 'Click anywhere to continue.')
+		message = Text(Point(1000, 1000), 'Click anywhere to continue.')
 		message.setSize(20)
 		message.setFace('helvetica')
 		message.setStyle('bold')
 		message.draw(self.window)
 
 		self.window.getMouse()
-		self.window.close()
 
 
 	def in_button(self, loc, button):
@@ -220,7 +247,7 @@ class Farm:
 		while(True):
 			click = self.window.getMouse()
 			if self.in_button(click, self.buttons['GO']):
-				year = Rectangle(Point(0, 0), Point(self.window.getWidth(), self.window.getHeight()))
+				"""year = Rectangle(Point(0, 0), Point(self.window.getWidth(), self.window.getHeight()))
 				year.setFill('black')
 				year.draw(self.window)
 
@@ -229,7 +256,7 @@ class Farm:
 				text.setFace('helvetica')
 				text.setTextColor('white')
 				text.setSize(20)
-				text.draw(self.window)
+				text.draw(self.window)"""
 				break
 
 			self.handle_buttons(click)
@@ -355,11 +382,14 @@ class Farm:
 		print('pond health:', self.pond_health)
 		pond = Rectangle(Point(170, 125), Point(170 + int(limit), 140))
 		if self.pond_health < 25:
-			pond.setFil('red')
+			pond.setFill('red')
+			pond.setOutline('red')
 		elif self.pond_health < 50:
-			pond.setFil('yellow')
+			pond.setFill('yellow')
+			pond.setOutline('yellow')
 		elif self.pond_health < 75:
-			pond.setFil('green')
+			pond.setFill('green')
+			pond.setOutline('green')
 
 		pond.draw(self.window)
 
@@ -372,11 +402,14 @@ class Farm:
 		print('field health:', self.field_health)
 		field = Rectangle(Point(170, 148), Point(170 + int(limit), 163))
 		if self.field_health < 25:
-			field.setFil('red')
+			field.setFill('red')
+			field.setOutline('red')
 		elif self.field_health < 50:
-			field.setFil('yellow')
+			field.setFill('yellow')
+			field.setOutline('yellow')
 		elif self.field_health < 75:
-			field.setFil('green')
+			field.setFill('green')
+			field.setOutline('green')
 
 		field.draw(self.window)
 
