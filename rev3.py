@@ -40,57 +40,44 @@ class Farm:
 
 
 	def run_tutorial(self):
-		img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'farm-empty.gif')
+		img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/farm-empty.gif')
 		img.draw(self.window)
 
 		# monoculture or polyculture selection
 		rectangle_dimensions = TODO
 		rectangle = Rectangle(rectangle_dimensions)
 		rectangle.draw(self.window)
-		button = Image(TODO)
-		button.draw(self.window)
-		if self.in_button(rectangle_dimensions):
-			if self.mono:
-				img = Image(TODO, 'mono.gif')
-				self.mono = False
-				img.draw(self.window)
-
-			else:
-				img = Image(TODO, 'poly.gif')
-				self.mono = True
-				img.draw(self.window)
-
+		mono = Image(TODO, 'gif/mono.gif')
+		mono.draw(self.window)
+		poly = Image(TODO, 'gif/poly.gif')
+		poly.draw(self.window)
+		if self.in_button(TODO_mono_dimensions):
+			self.mono = True
+		if self.in_button(TODO_poly_dimensions):
+			self.mono = False
 
 		# pesticide selection
 		rectangle.draw(self.window)
-		button = Image(TODO)
-		button.draw(self.window)
-		if self.in_button(rectangle_dimensions):
-			if self.pesticide:
-				img = Image(TODO, 'pesticide.gif')
-				self.pesticide = False
-				img.draw(self.window)
-
-			else:
-				img = Image(TODO, 'pesticide-selected.gif')
-				self.pesticide = True
-				img.draw(self.window)
+		pest_yes = Image(TODO, 'gif/pest-yes.gif')
+		pest_yes.draw(self.window)
+		pest_no = Image(TODO, 'gif/pest-no.gif')
+		pest_no.draw(self.window)
+		if self.in_button(TODO_pest_yes_dimensions):
+			self.pesticide = True
+		if self.in_button(TODO_pest_no_dimensions):
+			self.pesticide = False
 
 
 		# fertilizer selection
 		rectangle.draw(self.window)
-		button = Image(TODO)
-		button.draw(self.window)
-		if self.in_button(rectangle_dimensions):
-			if self.fertilizer:
-				img = Image(TODO, 'fertilizer.gif')
-				self.fertilizer = False
-				img.draw(self.window)
-
-			else:
-				img = Image(TODO, 'fertilize-selected.gif')
-				self.fertilizer = True
-				img.draw(self.window)
+		fert_yes = Image(TODO, 'gif/fert-yes.gif')
+		fert_yes.draw(self.window)
+		fert_no = Image(TODO, 'gif/fert-no.gif')
+		fert_no.draw(self.window)
+		if self.in_button(TODO_fert_yes_dimensions):
+			self.pesticide = True
+		if self.in_button(TODO_fert_no_dimensions):
+			self.pesticide = False
 
 
 		# run round
@@ -109,6 +96,7 @@ class Farm:
 			text.setSize(20)
 			text.draw(self.window)
 			self.window.flush()
+			pause()
 
 		self.run_year()
 		self.display_summary()
@@ -129,7 +117,6 @@ class Farm:
 			self.summary['field health'].append('increased by 10% because of polyculture')
 			self.field_health += 10
 
-
 		if self.pesticide:
 			self.summary['money'].append('increased by $50 because of pesticide use')
 			self.money += 50
@@ -137,7 +124,6 @@ class Farm:
 			self.field_health -= 20
 			self.summary['algae'].append('coverage increased by 50% because of pesticide use')
 			self.algae_coverage *= 2 # exponential
-
 
 		if self.fertilizer:
 			self.summary['money'].append('increased by $50 because of fertilizer use')
@@ -147,11 +133,9 @@ class Farm:
 			self.summary['algae'].append('coverage increased by 50% because of fertilizer use')
 			self.algae_coverage *= 2 # exponential
 
-
 		if self.algae_coverage > 1:
 			self.summary['pond health'].append('declined because of an algae bloom')
 			self.pond_health -= self.algae_coverage
-
 
 		if self.field_health == 0:
 			self.money -= 300
@@ -203,33 +187,31 @@ class Farm:
 	def handle_buttons(self, click):
 		if self.in_button(click, self.buttons['pesticide']):
 			if self.pesticide:
-				img = Image(Point(750, 130), 'pesticide.gif')
+				img = Image(Point(750, 130), 'gif/pest-no.gif')
 				self.pesticide = False
 				img.draw(self.window)
 			else:
-				img = Image(Point(750, 130), 'pesticide-selected.gif')
+				img = Image(Point(750, 130), 'gif/pest-yes.gif')
 				self.pesticide = True
 				img.draw(self.window)
 
 		elif self.in_button(click, self.buttons['fertilizer']):
 			if self.fertilizer:
-				img = Image(Point(1000, 130), 'fertilize.gif')
+				img = Image(Point(1000, 130), 'gif/fert-no.gif')
 				self.fertilizer = False
 				img.draw(self.window)
-
 			else:
-				img = Image(Point(1000, 130), 'fertilize-selected.gif')
+				img = Image(Point(1000, 130), 'gif/fert-yes.gif')
 				self.fertilizer = True
 				img.draw(self.window)
 
-		elif self.in_button(click, self.buttons['mono_poly']):
+		elif self.in_button(click, self.buttons['gif/mono_poly']):
 			if self.mono:
-				img = Image(Point(1250, 130), 'mono.gif')
+				img = Image(Point(1250, 130), 'gif/poly.gif')
 				self.mono = False
 				img.draw(self.window)
-
 			else:
-				img = Image(Point(1250, 130), 'poly.gif')
+				img = Image(Point(1250, 130), 'gif/mono.gif')
 				self.mono = True
 				img.draw(self.window)
 
@@ -256,7 +238,7 @@ class Farm:
 
 
 	def draw_buttons(self):
-		img = Image(Point(750, 130), 'pesticide.gif')
+		img = Image(Point(750, 130), 'gif/pest-no.gif')
 		img.draw(self.window)
 
 		text = Text(Point(750, 240), 'Pesticides will help your crops \n grow stronger, but will damage your \n land and pond in the long run.')
@@ -264,7 +246,7 @@ class Farm:
 		text.setFace('helvetica')
 		text.draw(self.window)
 
-		img = Image(Point(1000, 130), 'fertilize.gif')
+		img = Image(Point(1000, 130), 'gif/fert-no.gif')
 		img.draw(self.window)
 
 		text = Text(Point(1000, 240), 'Fertilizer will help your crops \n grow stronger, but could lead \n to an algae bloom in your pond.')
@@ -272,7 +254,7 @@ class Farm:
 		text.setFace('helvetica')
 		text.draw(self.window)
 
-		img = Image(Point(1250, 130), 'poly.gif')
+		img = Image(Point(1250, 130), 'gif/poly.gif')
 		img.draw(self.window)
 
 		text = Text(Point(1250, 240), 'Monoculture farming will earn \n more money, but will \n damage the land over time.')
@@ -280,42 +262,52 @@ class Farm:
 		text.setFace('helvetica')
 		text.draw(self.window)
 
-		text = Text(Point(1000, 760), 'RUN ONE YEAR')
-		text.setSize(25)
-		text.setStyle('bold')
-		text.setTextColor('white')
-		text.setFace('helvetica')
-		text.draw(self.window)
+		img = Image(Point(1500, 700), 'gif/run_button.gif')
+		img.draw(self.window)
 
 
 	def display(self):
 		if self.mono: # monoculture
 			if self.pond_health > 50: # pond is healthy
 				if self.field_health > 50: # field is healthy
-					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'mono-good.gif')
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/mono-good.gif')
 				elif self.field_health < 20: # field is dead
-					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'mono-dead.gif')
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/mono-dead.gif')
 				else: # field is sick
-					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'mono-bad.gif')
-			else: # pond is sick
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/mono-bad.gif')
+			elif self.pond_health > 20 and self.pond_health < 50:
 				if self.field_health > 50: # field is healthy
-					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'mono-algae.gif')
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/2.gif')
+				elif self.field_health < 20: # field is dead
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/5.gif')
 				else: # field is sick
-					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'mono-bad-algae.gif')
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/5.gif')
+			else: # pond is very sick
+				if self.field_health > 50: # field is healthy
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/mono-algae.gif')
+				else: # field is sick
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/mono-bad-algae.gif')
 
 		else: # polyculture
 			if self.pond_health > 50: # pond is healthy
 				if self.field_health > 50: # field is healthy
-					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'poly-good.gif')
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/poly-good.gif')
 				elif self.field_health < 20: # field is dead
-					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'poly-dead.gif')
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/poly-dead.gif')
 				else: # field is sick
-					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'poly-bad.gif')
-			else: # pond is sick
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/poly-bad.gif')
+			elif self.pond_health > 20 and self.pond_health < 50: # pond is sick
 				if self.field_health > 50: # field is healthy
-					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'poly-algae.gif')
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/8.gif')
+				elif self.field_health < 20: # field is dead
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/6.gif')
 				else: # field is sick
-					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'poly-bad-algae.gif')
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/7.gif')
+			else: # pond is very sick
+				if self.field_health > 50: # field is healthy
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/poly-algae.gif')
+				else: # field is sick
+					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/poly-bad-algae.gif')
 
 		img.draw(self.window)
 		self.draw_buttons()
@@ -342,50 +334,55 @@ class Farm:
 		text.draw(self.window)
 
 		if self.pesticide:
-			img = Image(Point(205, 65), 'checkmark_transparent.gif')
+			img = Image(Point(205, 65), 'gif/checkmark_transparent.gif')
 		else:
-			img = Image(Point(205, 65), 'x_transparent.gif')
+			img = Image(Point(205, 65), 'gif/x_transparent.gif')
 		img.draw(self.window)
 
 		if self.fertilizer:
-			img = Image(Point(200, 88), 'checkmark_transparent.gif')
+			img = Image(Point(200, 88), 'gif/checkmark_transparent.gif')
 		else:
-			img = Image(Point(200, 88), 'x_transparent.gif')
+			img = Image(Point(200, 88), 'gif/x_transparent.gif')
 		img.draw(self.window)
 
 		health_background = Rectangle(Point(170, 125), Point(240, 140))
 		health_background.draw(self.window)
 
 		pond = Rectangle(Point(170, 125), Point(240, 140))
-		print('pond health:', self.pond_health)
-		if self.pond_health < 20:
-			pond = Rectangle(Point(170, 125), Point(180, 140))
-		elif self.pond_health < 50:
-			pond = Rectangle(Point(170, 125), Point(200, 140))
-		elif self.pond_health < 80:
-			pond = Rectangle(Point(170, 125), Point(220, 140))
+		
+		limit = 100/(1 - self.pond_health) * 70
 
-		pond.setFill('black')
+		print('pond health:', self.pond_health)
+		pond = Rectangle(Point(170, 125), Point(170 + int(limit), 140))
+		if self.pond_health < 25:
+			pond.setFil('red')
+		elif self.pond_health < 50:
+			pond.setFil('yellow')
+		elif self.pond_health < 75:
+			pond.setFil('green')
+
 		pond.draw(self.window)
 
 		health_background = Rectangle(Point(170, 148), Point(240, 163))
 		health_background.draw(self.window)
 
 		field = Rectangle(Point(170, 148), Point(240, 163))
-		print('field health:', self.field_health)
-		if self.field_health < 20:
-			field = Rectangle(Point(170, 148), Point(180, 163))
-		elif self.field_health < 50:
-			field = Rectangle(Point(170, 148), Point(200, 163))
-		elif self.field_health < 80:
-			field = Rectangle(Point(170, 148), Point(220, 163))
+		limit = 100/(1 - self.field_health) * 70
 
-		field.setFill('black')
+		print('field health:', self.field_health)
+		field = Rectangle(Point(170, 148), Point(170 + int(limit), 163))
+		if self.field_health < 25:
+			field.setFil('red')
+		elif self.field_health < 50:
+			field.setFil('yellow')
+		elif self.field_health < 75:
+			field.setFil('green')
+
 		field.draw(self.window)
 
 
 def conclusion(farm, win):
-	img = Image(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'farm-empty.gif')
+	img = Image(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'gif/farm-empty.gif')
 	img.draw(farm.window)
 	if win:
 		label = Text(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'YOU WIN!')

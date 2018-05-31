@@ -1,0 +1,2 @@
+- figure out coordinates
+- figure out background of status section
