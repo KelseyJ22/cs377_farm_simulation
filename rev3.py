@@ -31,7 +31,7 @@ class Farm:
 		self.buttons['mono_poly'] = [Point(1150, 90), Point(1350, 200)]
 		self.buttons['pesticide'] = [Point(700, 90), Point(800, 200)]
 		self.buttons['fertilizer'] = [Point(950, 90), Point(1050, 200)]
-		self.buttons['GO'] = [Point(950, 740), Point(1050, 780)]
+		self.buttons['GO'] = [Point(600, 750), Point(1400, 850)]
 		self.summary = {'money':[], 'field health':[], 'pond health':[], 'algae':[]}
 
 
@@ -108,17 +108,6 @@ class Farm:
 		while(True):
 			click = self.window.getMouse()
 			if self.in_button(click, [Point(self.window.getWidth()/2-260, self.window.getHeight()/2-50), Point(self.window.getWidth()/2+260, self.window.getHeight()/2+50)]):
-				"""year = Rectangle(Point(0, 0), Point(self.window.getWidth(), self.window.getHeight()))
-				year.setFill('black')
-				year.draw(self.window)
-
-				text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'Running one year...')
-				text.setStyle('bold')
-				text.setFace('helvetica')
-				text.setTextColor('white')
-				text.setSize(20)
-				text.draw(self.window)
-				#self.window.flush()"""
 				break
 
 		self.run_year()
@@ -140,6 +129,7 @@ class Farm:
 			self.summary['field health'].append('increased by 10% because of polyculture')
 			self.field_health += 10
 
+
 		if self.pesticide:
 			self.summary['money'].append('increased by $50 because of pesticide use')
 			self.money += 50
@@ -160,9 +150,15 @@ class Farm:
 			self.summary['pond health'].append('declined because of an algae bloom')
 			self.pond_health -= self.algae_coverage
 
-		if self.field_health == 0:
+		if self.field_health <= 0:
 			self.money -= 300
 			self.summary['money'].append('decreased by $300 because your land died and had to be replaced')
+
+		if self.field_health > 100:
+			self.field_health = 100
+		if self.pond_health <= 0:
+			self.pond_health = 0 # prevent from going negative
+			self.summary['pond health'].append('your pond died due to algae growth')
 
 
 	def run_round(self):
@@ -192,7 +188,7 @@ class Farm:
 		message.setFace('helvetica')
 		message.draw(self.window)
 
-		self.summary = {'money':[], 'farm health':[], 'pond health':[], 'algae':[]} # reset for next round
+		self.summary = {'money':[], 'field health':[], 'pond health':[], 'algae':[]} # reset for next round
 		
 		message = Text(Point(1000, 1000), 'Click anywhere to continue.')
 		message.setSize(20)
@@ -214,30 +210,56 @@ class Farm:
 	def handle_buttons(self, click):
 		if self.in_button(click, self.buttons['pesticide']):
 			if self.pesticide:
+				background = Rectangle(Point(650, 30), Point(900, 210))
+				background.setFill('white')
+				background.setOutline('white')
+				background.draw(self.window)
+
 				img = Image(Point(750, 130), 'gif/pest-no.gif')
 				self.pesticide = False
 				img.draw(self.window)
 			else:
+				background = Rectangle(Point(650, 30), Point(900, 210))
+				background.setFill('white')
+				background.setOutline('white')
+				background.draw(self.window)
+
 				img = Image(Point(750, 130), 'gif/pest-yes.gif')
 				self.pesticide = True
 				img.draw(self.window)
 
 		elif self.in_button(click, self.buttons['fertilizer']):
 			if self.fertilizer:
+				background = Rectangle(Point(900, 30), Point(1100, 210))
+				background.setFill('white')
+				background.setOutline('white')
+				background.draw(self.window)
 				img = Image(Point(1000, 130), 'gif/fert-no.gif')
 				self.fertilizer = False
 				img.draw(self.window)
 			else:
+				background = Rectangle(Point(900, 30), Point(1100, 210))
+				background.setFill('white')
+				background.setOutline('white')
+				background.draw(self.window)
 				img = Image(Point(1000, 130), 'gif/fert-yes.gif')
 				self.fertilizer = True
 				img.draw(self.window)
 
-		elif self.in_button(click, self.buttons['gif/mono_poly']):
+		elif self.in_button(click, self.buttons['mono_poly']):
 			if self.mono:
+				background = Rectangle(Point(1100, 30), Point(1400, 100))
+				background.setFill('white')
+				background.setOutline('white')
+				background.draw(self.window)
 				img = Image(Point(1250, 130), 'gif/poly.gif')
 				self.mono = False
 				img.draw(self.window)
 			else:
+				background = Rectangle(Point(1100, 30), Point(1400, 100))
+				background.setFill('white')
+				background.setOutline('white')
+				background.draw(self.window)
 				img = Image(Point(1250, 130), 'gif/mono.gif')
 				self.mono = True
 				img.draw(self.window)
@@ -247,16 +269,6 @@ class Farm:
 		while(True):
 			click = self.window.getMouse()
 			if self.in_button(click, self.buttons['GO']):
-				"""year = Rectangle(Point(0, 0), Point(self.window.getWidth(), self.window.getHeight()))
-				year.setFill('black')
-				year.draw(self.window)
-
-				text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'Running one year...')
-				text.setStyle('bold')
-				text.setFace('helvetica')
-				text.setTextColor('white')
-				text.setSize(20)
-				text.draw(self.window)"""
 				break
 
 			self.handle_buttons(click)
@@ -265,7 +277,15 @@ class Farm:
 
 
 	def draw_buttons(self):
-		img = Image(Point(750, 130), 'gif/pest-no.gif')
+		background = Rectangle(Point(600, 30), Point(1400, 300))
+		background.setFill('white')
+		background.setOutline('white')
+		background.draw(self.window)
+
+		if self.pesticide:
+			img = Image(Point(750, 130), 'gif/pest-yes.gif')
+		else:
+			img = Image(Point(750, 130), 'gif/pest-no.gif')
 		img.draw(self.window)
 
 		text = Text(Point(750, 240), 'Pesticides will help your crops \n grow stronger, but will damage your \n land and pond in the long run.')
@@ -273,7 +293,10 @@ class Farm:
 		text.setFace('helvetica')
 		text.draw(self.window)
 
-		img = Image(Point(1000, 130), 'gif/fert-no.gif')
+		if self.fertilizer:
+			img = Image(Point(1000, 130), 'gif/fert-yes.gif')
+		else:
+			img = Image(Point(1000, 130), 'gif/fert-no.gif')
 		img.draw(self.window)
 
 		text = Text(Point(1000, 240), 'Fertilizer will help your crops \n grow stronger, but could lead \n to an algae bloom in your pond.')
@@ -281,7 +304,10 @@ class Farm:
 		text.setFace('helvetica')
 		text.draw(self.window)
 
-		img = Image(Point(1250, 130), 'gif/poly.gif')
+		if self.mono:
+			img = Image(Point(1250, 130), 'gif/mono.gif')
+		else:
+			img = Image(Point(1250, 130), 'gif/poly.gif')
 		img.draw(self.window)
 
 		text = Text(Point(1250, 240), 'Monoculture farming will earn \n more money, but will \n damage the land over time.')
@@ -289,7 +315,7 @@ class Farm:
 		text.setFace('helvetica')
 		text.draw(self.window)
 
-		img = Image(Point(1500, 700), 'gif/run_button.gif')
+		img = Image(Point(1000, 790), 'gif/run_button.gif')
 		img.draw(self.window)
 
 
@@ -343,7 +369,9 @@ class Farm:
 
 
 	def show_status(self):
-		background = Rectangle(Point(50, 50), Point(300, 300)) # TODO these locations aren't right
+		background = Rectangle(Point(0, 0), Point(250, 250))
+		background.setFill('white')
+		background.setOutline('white')
 		background.draw(self.window)
 
 		algae_percent = 0
@@ -377,19 +405,18 @@ class Farm:
 
 		pond = Rectangle(Point(170, 125), Point(240, 140))
 		
-		limit = 100/(1 - self.pond_health) * 70
-
-		print('pond health:', self.pond_health)
+		limit = self.pond_health/100.0 * 70
 		pond = Rectangle(Point(170, 125), Point(170 + int(limit), 140))
+		pond.setFill('green')
+		pond.setOutline('green')
+		
 		if self.pond_health < 25:
 			pond.setFill('red')
 			pond.setOutline('red')
 		elif self.pond_health < 50:
 			pond.setFill('yellow')
 			pond.setOutline('yellow')
-		elif self.pond_health < 75:
-			pond.setFill('green')
-			pond.setOutline('green')
+			
 
 		pond.draw(self.window)
 
@@ -397,19 +424,16 @@ class Farm:
 		health_background.draw(self.window)
 
 		field = Rectangle(Point(170, 148), Point(240, 163))
-		limit = 100/(1 - self.field_health) * 70
-
-		print('field health:', self.field_health)
+		limit = self.field_health/100.0 * 70
 		field = Rectangle(Point(170, 148), Point(170 + int(limit), 163))
+		field.setFill('green')
+		field.setOutline('green')
 		if self.field_health < 25:
 			field.setFill('red')
 			field.setOutline('red')
 		elif self.field_health < 50:
 			field.setFill('yellow')
 			field.setOutline('yellow')
-		elif self.field_health < 75:
-			field.setFill('green')
-			field.setOutline('green')
 
 		field.draw(self.window)
 
@@ -417,6 +441,9 @@ class Farm:
 def conclusion(farm, win):
 	img = Image(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'gif/farm-empty.gif')
 	img.draw(farm.window)
+	rectangle = Rectangle(Point(farm.window.getWidth()/2-100, farm.window.getHeight()/2-100), Point(farm.window.getWidth()/2+100, farm.window.getHeight()/2+100))
+	rectangle.setFill('white')
+	rectangle.draw(farm.window)
 	if win:
 		label = Text(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'YOU WIN!')
 	else:
