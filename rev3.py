@@ -49,16 +49,21 @@ class Farm:
 		rectangle.setFill('white')
 		rectangle.setOutline('white')
 		rectangle.draw(self.window)
-		mono = Image(Point(self.window.getWidth()/2-120, self.window.getHeight()/2), 'gif/mono.gif')
+		mono = Image(Point(self.window.getWidth()/2-120, self.window.getHeight()/2-50), 'gif/mono.gif')
 		mono.draw(self.window)
-		poly = Image(Point(self.window.getWidth()/2+120, self.window.getHeight()/2), 'gif/poly.gif')
+		poly = Image(Point(self.window.getWidth()/2+120, self.window.getHeight()/2-50), 'gif/poly.gif')
 		poly.draw(self.window)
+		
+		text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2+70), 'Monoculture farming will earn \n more money, but will \n damage the land over time.')
+		text.setSize(16)
+		text.setFace('helvetica')
+		text.draw(self.window)
 		while(True):
 			click = self.window.getMouse()
-			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-50), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
+			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-100), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
 				self.mono = True
 				break
-			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-50), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
+			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-100), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
 				self.mono = False
 				break
 
@@ -67,16 +72,21 @@ class Farm:
 		rectangle.setFill('white')
 		rectangle.setOutline('white')
 		rectangle.draw(self.window)
-		pest_yes = Image(Point(self.window.getWidth()/2-110, self.window.getHeight()/2), 'gif/pest-yes.gif')
+		pest_yes = Image(Point(self.window.getWidth()/2-110, self.window.getHeight()/2-50), 'gif/pest-yes.gif')
 		pest_yes.draw(self.window)
-		pest_no = Image(Point(self.window.getWidth()/2+110, self.window.getHeight()/2), 'gif/pest-no.gif')
+		pest_no = Image(Point(self.window.getWidth()/2+110, self.window.getHeight()/2-50), 'gif/pest-no.gif')
 		pest_no.draw(self.window)
+
+		text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2+70), 'Pesticides will help your crops \n grow stronger, but will damage your \n land and pond in the long run.')
+		text.setSize(16)
+		text.setFace('helvetica')
+		text.draw(self.window)
 		while(True):
 			click = self.window.getMouse()
-			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-50), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
+			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-100), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
 				self.pesticide = True
 				break
-			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-50), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
+			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-100), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
 				self.pesticide = False
 				break
 
@@ -86,16 +96,21 @@ class Farm:
 		rectangle.setFill('white')
 		rectangle.setOutline('white')
 		rectangle.draw(self.window)
-		fert_yes = Image(Point(self.window.getWidth()/2-110, self.window.getHeight()/2), 'gif/fert-yes.gif')
+		fert_yes = Image(Point(self.window.getWidth()/2-110, self.window.getHeight()/2-50), 'gif/fert-yes.gif')
 		fert_yes.draw(self.window)
-		fert_no = Image(Point(self.window.getWidth()/2+110, self.window.getHeight()/2), 'gif/fert-no.gif')
+		fert_no = Image(Point(self.window.getWidth()/2+110, self.window.getHeight()/2-50), 'gif/fert-no.gif')
 		fert_no.draw(self.window)
+		
+		text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2+70), 'Fertilizer will help your crops \n grow stronger, but could lead \n to an algae bloom in your pond.')
+		text.setSize(16)
+		text.setFace('helvetica')
+		text.draw(self.window)
 		while(True):
 			click = self.window.getMouse()
-			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-50), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
+			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-100), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
 				self.pesticide = True
 				break
-			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-50), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
+			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-100), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
 				self.pesticide = False
 				break
 
@@ -116,7 +131,7 @@ class Farm:
 
 	def run_year(self):
 		self.money -= 100 # do this no matter what
-		self.summary['money'].append('decreased by $100')
+		self.summary['money'].append('decreased by $100 (your annual expenses)')
 
 		if self.mono:
 			self.summary['money'].append('increased by $300 because of monoculture')
