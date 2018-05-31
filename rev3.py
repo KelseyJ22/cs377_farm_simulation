@@ -32,7 +32,7 @@ class Farm:
 		self.buttons['pesticide'] = [Point(700, 90), Point(800, 200)]
 		self.buttons['fertilizer'] = [Point(950, 90), Point(1050, 200)]
 		self.buttons['GO'] = [Point(600, 750), Point(1400, 850)]
-		self.summary = {'money':[], 'field health':[], 'pond health':[], 'algae':[]}
+		self.summary = {'money':[[], 0], 'field health':[[], 0], 'pond health':[[], 0], 'algae':[[], 1]}
 
 
 	def log_state(self):
@@ -131,49 +131,61 @@ class Farm:
 
 	def run_year(self):
 		self.money -= 100 # do this no matter what
-		self.summary['money'].append('decreased by $100 (your annual expenses)')
+		self.summary['money'][0].append('Decreased by $100 (your annual expenses)')
+		self.summary['money'][1] -= 100
 
 		if self.mono:
-			self.summary['money'].append('increased by $300 because of monoculture')
+			self.summary['money'][0].append('Increased by $300 because monoculture farming has high financia returns')
 			self.money += 300
-			self.summary['field health'].append('declined by 50% because of monoculture')
+			self.summary['money'][1] += 300
+			self.summary['field health'][0].append('Declined by 50% because monoculture extracts nutrients from the soil')
 			self.field_health -= 50
-		else:
-			self.summary['money'].append('increased by $100 because of polyculture')
-			self.money += 100 # if you just do polyculture without fertilizer you will break even
-			self.summary['field health'].append('increased by 10% because of polyculture')
-			self.field_health += 10
+			self.summary['field health'][1] -= 50
 
+		else:
+			self.summary['money'][0].append('Increased by $100 because polyculture farming is more labor-intensive and less productive')
+			self.money += 100 # if you just do polyculture without fertilizer you will break even
+			self.summary['field health'][0].append('Increased by 10% because polyculture helps cultivate healthy soil')
+			self.field_health += 10
+			self.summary['field health'][1] += 10
 
 		if self.pesticide:
-			self.summary['money'].append('increased by $50 because of pesticide use')
+			self.summary['money'][0].append('Increased by $50 because pesticides kill bugs and increase productivity')
 			self.money += 50
-			self.summary['field health'].append('declined by 20% because of pesticide use')
+			self.summary['money'][1] += 50
+			self.summary['field health'][0].append('Declined by 20% because pesticides poison valuable insects as well as pests')
 			self.field_health -= 20
-			self.summary['algae'].append('coverage increased by 50% because of pesticide use')
+			self.summary['field health'][1] -= 20
+			self.summary['algae'][0].append('Coverage increased by 50% because pesticides disrupt the balance of the aquatic ecosystem')
 			self.algae_coverage *= 2 # exponential
+			self.summary['algae'][1] *= 2
 
 		if self.fertilizer:
-			self.summary['money'].append('increased by $50 because of fertilizer use')
+			self.summary['money'][0].append('Increased by $50 because fertilizer increases the productivity of your farm')
 			self.money += 50
-			self.summary['field health'].append('increased by 20% because of fertilizer use')
+			self.summary['money'][1] += 50
+			self.summary['field health'][0].append('Increased by 20% because fertilizer increases the nutrients in your soil')
 			self.field_health += 20
-			self.summary['algae'].append('coverage increased by 50% because of fertilizer use')
+			self.summary['field health'][1] += 20
+			self.summary['algae'][0].append('Coverage increased by 50% because fertilizer runoff rapidly feeds algae growth')
 			self.algae_coverage *= 2 # exponential
+			self.summary['algae'][1] *= 2
 
 		if self.algae_coverage > 1:
-			self.summary['pond health'].append('declined because of an algae bloom')
+			self.summary['pond health'][0].append('Declined because of an algae bloom')
 			self.pond_health -= self.algae_coverage
+			self.summary['pond health'][1] -= self.algae_coverage
 
 		if self.field_health <= 0:
 			self.money -= 300
-			self.summary['money'].append('decreased by $300 because your land died and had to be replaced')
+			self.summary['money'][1] -= 300
+			self.summary['money'][0].append('Decreased by $300 because your soil failed and had to be replaced')
 
 		if self.field_health > 100:
 			self.field_health = 100
 		if self.pond_health <= 0:
 			self.pond_health = 0 # prevent from going negative
-			self.summary['pond health'].append('your pond died due to algae growth')
+			self.summary['pond health'][0].append('Your pond died due to algae overgrowth, suffocating other plants and starving the animals that depended on them')
 
 
 	def run_round(self):
@@ -190,23 +202,27 @@ class Farm:
 		background.draw(self.window)
 		text = ''
 		for key in self.summary:
-			text += key.upper() + ': \n'
-			if len(self.summary[key]) == 0:
-				text += 'no change this iteration'
+			if key == 'field health' or key == 'pond health' or key == 'algae':
+				text += key.upper() + ': ' + str(self.summary[key][1]) + '%\n'
+			elif key == 'money':
+				text += key.upper() + ': $' + str(self.summary[key][1]) + '\n'
+
+			if len(self.summary[key][0]) == 0:
+				text += 'No change this iteration\n'
 			else:
-				for info in self.summary[key]:
+				for info in self.summary[key][0]:
 					text += info + '\n'
 			text += '\n'
 
 		message = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2), text)
-		message.setSize(30)
+		message.setSize(20)
 		message.setFace('helvetica')
 		message.draw(self.window)
 
-		self.summary = {'money':[], 'field health':[], 'pond health':[], 'algae':[]} # reset for next round
+		self.summary = {'money':[[], 0], 'field health':[[], 0], 'pond health':[[], 0], 'algae':[[], 1]} # reset for next round
 		
-		message = Text(Point(1000, 1000), 'Click anywhere to continue.')
-		message.setSize(20)
+		message = Text(Point(self.window.getWidth()/2, 1000), 'Click anywhere to continue.')
+		message.setSize(30)
 		message.setFace('helvetica')
 		message.setStyle('bold')
 		message.draw(self.window)
