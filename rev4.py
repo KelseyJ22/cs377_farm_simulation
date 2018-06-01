@@ -28,11 +28,22 @@ class Farm:
 		self.field_health = 100
 		self.buttons = dict()
 		self.window.autoflush = False
-		self.buttons['mono_poly'] = [Point(1150, 90), Point(1350, 200)]
-		self.buttons['pesticide'] = [Point(700, 90), Point(800, 200)]
-		self.buttons['fertilizer'] = [Point(950, 90), Point(1050, 200)]
+		self.buttons['mono_poly'] = [Point(1200, 70), Point(1400, 170)]
+		self.buttons['pesticide'] = [Point(750, 70), Point(850, 170)]
+		self.buttons['fertilizer'] = [Point(1000, 70), Point(1100, 170)]
 		self.buttons['GO'] = [Point(600, 750), Point(1400, 850)]
 		self.summary = {'money':[[], 0], 'field health':[[], 0], 'pond health':[[], 0], 'algae':[[], 1]}
+		self.year = 0
+		self.button_bkgd_x = 700
+		self.button_bkgd_y = 0
+		self.button_bkgd_width = 800
+		self.button_bkgd_height = 230
+		self.button_bkgd_margin = 30
+		self.button_width = 200
+		self.button_height = 170
+		self.button_x_center = self.button_width / 2
+		self.img_y_center = self.button_bkgd_margin + 70
+		self.txt_y_center = self.button_bkgd_margin + 180
 
 
 	def log_state(self):
@@ -43,116 +54,73 @@ class Farm:
 		img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/farm-empty.gif')
 		img.draw(self.window)
 
-		# monoculture or polyculture selection
-		rectangle_dimensions = [Point(self.window.getWidth()/2-260, self.window.getHeight()/2-150), Point(self.window.getWidth()/2+260, self.window.getHeight()/2+150)]
-		rectangle = Rectangle(rectangle_dimensions[0], rectangle_dimensions[1])
-		rectangle.setFill('white')
-		rectangle.setOutline('white')
-		rectangle.draw(self.window)
-		mono = Image(Point(self.window.getWidth()/2-120, self.window.getHeight()/2-50), 'gif/mono.gif')
-		mono.draw(self.window)
+		intro = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/intro.gif')
+		intro.draw(self.window)
 
-		text = Text(Point(self.window.getWidth()/2-120, self.window.getHeight()/2+50), 'Monoculture')
-		text.setSize(16)
-		text.setFace('helvetica')
-		text.draw(self.window)
+		self.window.getMouse()
 
-		poly = Image(Point(self.window.getWidth()/2+120, self.window.getHeight()/2-50), 'gif/poly.gif')
-		poly.draw(self.window)
-		text = Text(Point(self.window.getWidth()/2+120, self.window.getHeight()/2+50), 'Polyculture')
-		text.setSize(14)
-		text.setFace('helvetica')
-		text.draw(self.window)
-		
-		text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2+100), 'Monoculture farming will earn \n more money, but will \n damage the land over time.')
-		text.setSize(14)
-		text.setFace('helvetica')
-		text.draw(self.window)
+		# choose farm style
+		img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/farm-empty.gif')
+		img.draw(self.window)
+
+		mono_poly = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/farm-style.gif')
+		mono_poly.draw(self.window)
+
 		while(True):
 			click = self.window.getMouse()
-			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-100), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
-				self.mono = True
-				break
-			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-100), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
+			if self.in_button(click, [Point(440, 190), Point(610, 370)]):
+					self.mono = False
+					break
+			elif self.in_button(click, [Point(840, 190), Point(1005, 370)]):
 				self.mono = False
 				break
-
-		# pesticide selection
-		rectangle = Rectangle(rectangle_dimensions[0], rectangle_dimensions[1])
-		rectangle.setFill('white')
-		rectangle.setOutline('white')
-		rectangle.draw(self.window)
-		pest_yes = Image(Point(self.window.getWidth()/2-110, self.window.getHeight()/2-50), 'gif/pest-yes.gif')
-		pest_yes.draw(self.window)
-		text = Text(Point(self.window.getWidth()/2-110, self.window.getHeight()/2+50), 'Apply Pesticides')
-		text.setSize(14)
-		text.setFace('helvetica')
-		text.draw(self.window)
-
-		pest_no = Image(Point(self.window.getWidth()/2+110, self.window.getHeight()/2-50), 'gif/pest-no.gif')
-		pest_no.draw(self.window)
-		text = Text(Point(self.window.getWidth()/2+110, self.window.getHeight()/2+50), "Don't Apply Pesticides")
-		text.setSize(14)
-		text.setFace('helvetica')
-		text.draw(self.window)
-
-		text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2+100), 'Pesticides will help your crops \n grow stronger, but will damage your \n land and pond in the long run.')
-		text.setSize(16)
-		text.setFace('helvetica')
-		text.draw(self.window)
-		while(True):
-			click = self.window.getMouse()
-			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-100), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
-				self.pesticide = True
-				break
-			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-100), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
-				self.pesticide = False
-				break
-
-
-		# fertilizer selection
-		rectangle = Rectangle(rectangle_dimensions[0], rectangle_dimensions[1])
-		rectangle.setFill('white')
-		rectangle.setOutline('white')
-		rectangle.draw(self.window)
-		fert_yes = Image(Point(self.window.getWidth()/2-110, self.window.getHeight()/2-50), 'gif/fert-yes.gif')
-		fert_yes.draw(self.window)
-		text = Text(Point(self.window.getWidth()/2-110, self.window.getHeight()/2+50), 'Fertilize')
-		text.setSize(14)
-		text.setFace('helvetica')
-		text.draw(self.window)
-
-		fert_no = Image(Point(self.window.getWidth()/2+110, self.window.getHeight()/2-50), 'gif/fert-no.gif')
-		fert_no.draw(self.window)
-		text = Text(Point(self.window.getWidth()/2+110, self.window.getHeight()/2+50), "Don't Fertilize")
-		text.setSize(14)
-		text.setFace('helvetica')
-		text.draw(self.window)
 		
-		text = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2+100), 'Fertilizer will help your crops \n grow stronger, but could lead \n to an algae bloom in your pond.')
-		text.setSize(16)
-		text.setFace('helvetica')
-		text.draw(self.window)
+		# choose fertilizer
+		img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/farm-empty.gif')
+		img.draw(self.window)
+
+		fertilizer = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/fertilizers.gif')
+		fertilizer.draw(self.window)	
+
 		while(True):
 			click = self.window.getMouse()
-			if self.in_button(click, [Point(self.window.getWidth()/2-150, self.window.getHeight()/2-100), Point(self.window.getWidth()/2-50, self.window.getHeight()/2+50)]):
-				self.pesticide = True
+			if self.in_button(click, [Point(440, 190), Point(610, 370)]):
+				self.fertilizer = True
 				break
-			elif self.in_button(click, [Point(self.window.getWidth()/2+50, self.window.getHeight()/2-100), Point(self.window.getWidth()/2+150, self.window.getHeight()/2+50)]):
-				self.pesticide = False
+			elif self.in_button(click, [Point(840, 190), Point(1005, 370)]):
+				self.fertilizer = False
 				break
 
+
+		# choose pesticides
+		img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/farm-empty.gif')
+		img.draw(self.window)
+
+		pesticide = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/pesticides.gif')
+		pesticide.draw(self.window)	
+		
+		while(True):
+			click = self.window.getMouse()
+			if self.in_button(click, [Point(440, 190), Point(610, 370)]):
+				self.pesticide = True
+				break
+			elif self.in_button(click, [Point(840, 190), Point(1005, 370)]):
+				self.pesticide = False
+				break
 
 		# run round
 		img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/farm-empty.gif')
 		img.draw(self.window)
-		button = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/run_button.gif')
-		button.draw(self.window)
+
+		run = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/run_button.gif')
+		run.draw(self.window)
+
 		while(True):
 			click = self.window.getMouse()
 			if self.in_button(click, [Point(self.window.getWidth()/2-260, self.window.getHeight()/2-50), Point(self.window.getWidth()/2+260, self.window.getHeight()/2+50)]):
 				break
 
+		self.year += 1
 		self.run_year()
 		self.display_summary()
 
@@ -267,61 +235,49 @@ class Farm:
 
 
 	def handle_buttons(self, click):
+		button_x_init = self.button_bkgd_x + self.button_bkgd_margin
+		button_y = self.button_bkgd_margin
 		if self.in_button(click, self.buttons['pesticide']):
+			button_x = button_x_init
+			background = Rectangle(Point(button_x, button_y), Point(button_x + self.button_width, button_y + self.button_height))
+			background.setFill('white')
+			background.setOutline('white')
+			background.draw(self.window)
 			if self.pesticide:
-				background = Rectangle(Point(650, 30), Point(900, 210))
-				background.setFill('white')
-				background.setOutline('white')
-				background.draw(self.window)
-
-				img = Image(Point(750, 130), 'gif/pest-no.gif')
+				img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/pest-no.gif')
 				self.pesticide = False
-				img.draw(self.window)
 			else:
-				background = Rectangle(Point(650, 30), Point(900, 210))
-				background.setFill('white')
-				background.setOutline('white')
-				background.draw(self.window)
-
-				img = Image(Point(750, 130), 'gif/pest-yes.gif')
+				img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/pest-yes.gif')
 				self.pesticide = True
-				img.draw(self.window)
+			img.draw(self.window)
 
 		elif self.in_button(click, self.buttons['fertilizer']):
+			button_x = button_x_init + 1 * self.button_width
+			background = Rectangle(Point(button_x, button_y), Point(button_x + self.button_width, button_y + self.button_height))
+			background.setFill('white')
+			background.setOutline('white')
+			background.draw(self.window)
 			if self.fertilizer:
-				background = Rectangle(Point(900, 30), Point(1100, 210))
-				background.setFill('white')
-				background.setOutline('white')
-				background.draw(self.window)
-				img = Image(Point(1000, 130), 'gif/fert-no.gif')
+				img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/fert-no.gif')
 				self.fertilizer = False
-				img.draw(self.window)
 			else:
-				background = Rectangle(Point(900, 30), Point(1100, 210))
-				background.setFill('white')
-				background.setOutline('white')
-				background.draw(self.window)
-				img = Image(Point(1000, 130), 'gif/fert-yes.gif')
+				img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/fert-yes.gif')
 				self.fertilizer = True
-				img.draw(self.window)
+			img.draw(self.window)
 
 		elif self.in_button(click, self.buttons['mono_poly']):
+			button_x = button_x_init + 2 * self.button_width
+			background = Rectangle(Point(button_x, button_y), Point(button_x + self.button_width, button_y + self.button_height))
+			background.setFill('white')
+			background.setOutline('white')
+			background.draw(self.window)
 			if self.mono:
-				background = Rectangle(Point(1100, 30), Point(1400, 210))
-				background.setFill('white')
-				background.setOutline('white')
-				background.draw(self.window)
-				img = Image(Point(1250, 130), 'gif/poly.gif')
+				img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/poly.gif')
 				self.mono = False
-				img.draw(self.window)
 			else:
-				background = Rectangle(Point(1100, 30), Point(1400, 210))
-				background.setFill('white')
-				background.setOutline('white')
-				background.draw(self.window)
-				img = Image(Point(1250, 130), 'gif/mono.gif')
+				img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/mono.gif')
 				self.mono = True
-				img.draw(self.window)
+			img.draw(self.window)
 
 
 	def make_choices(self):
@@ -336,40 +292,46 @@ class Farm:
 
 
 	def draw_buttons(self):
-		background = Rectangle(Point(600, 30), Point(1400, 300))
+		background = Rectangle(Point(self.button_bkgd_x, self.button_bkgd_y), Point(self.button_bkgd_x + self.button_bkgd_width, self.button_bkgd_y + self.button_bkgd_height))
 		background.setFill('white')
 		background.setOutline('white')
 		background.draw(self.window)
 
+		button_x_init = self.button_bkgd_x + self.button_bkgd_margin
+		button_y = self.button_bkgd_margin
+
+		button_x = button_x_init
 		if self.pesticide:
-			img = Image(Point(750, 130), 'gif/pest-yes.gif')
+			img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/pest-yes.gif')
 		else:
-			img = Image(Point(750, 130), 'gif/pest-no.gif')
+			img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/pest-no.gif')
 		img.draw(self.window)
 
-		text = Text(Point(750, 240), 'Pesticides will help your crops \n grow stronger, but will damage your \n land and pond in the long run.')
+		text = Text(Point(button_x + self.button_x_center, self.txt_y_center), 'Pesticides will help your crops \n grow stronger, but will damage your \n land and pond in the long run.')
 		text.setSize(16)
 		text.setFace('helvetica')
 		text.draw(self.window)
 
+		button_x += self.button_width
 		if self.fertilizer:
-			img = Image(Point(1000, 130), 'gif/fert-yes.gif')
+			img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/fert-yes.gif')
 		else:
-			img = Image(Point(1000, 130), 'gif/fert-no.gif')
+			img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/fert-no.gif')
 		img.draw(self.window)
 
-		text = Text(Point(1000, 240), 'Fertilizer will help your crops \n grow stronger, but could lead \n to an algae bloom in your pond.')
+		text = Text(Point(button_x + self.button_x_center, self.txt_y_center), 'Fertilizer will help your crops \n grow stronger, but could lead \n to an algae bloom in your pond.')
 		text.setSize(16)
 		text.setFace('helvetica')
 		text.draw(self.window)
 
+		button_x += self.button_width
 		if self.mono:
-			img = Image(Point(1250, 130), 'gif/mono.gif')
+			img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/mono.gif')
 		else:
-			img = Image(Point(1250, 130), 'gif/poly.gif')
+			img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/poly.gif')
 		img.draw(self.window)
 
-		text = Text(Point(1250, 240), 'Monoculture farming will earn \n more money, but will \n damage the land over time.')
+		text = Text(Point(button_x + self.button_x_center, self.txt_y_center), 'Monoculture farming will earn \n more money, but will \n damage the land over time.')
 		text.setSize(16)
 		text.setFace('helvetica')
 		text.draw(self.window)
@@ -379,6 +341,10 @@ class Farm:
 
 
 	def display(self):
+		year = 'gif/y' + str(self.year) + '.gif'
+		year_label = Image(Point(10, 800), year)
+		year_label.draw(self.window)
+
 		if self.mono: # monoculture
 			if self.pond_health > 50: # pond is healthy
 				if self.field_health > 50: # field is healthy
@@ -500,26 +466,20 @@ class Farm:
 def conclusion(farm, win):
 	img = Image(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'gif/farm-empty.gif')
 	img.draw(farm.window)
-	rectangle = Rectangle(Point(farm.window.getWidth()/2-100, farm.window.getHeight()/2-100), Point(farm.window.getWidth()/2+100, farm.window.getHeight()/2+100))
-	rectangle.setFill('white')
-	rectangle.draw(farm.window)
+	
 	if win:
-		label = Text(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'YOU WIN!')
+		state = Image(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'gif/signs/win.gif')
 	else:
-		label = Text(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'YOU LOSE!')
+		state = Image(Point(farm.window.getWidth()/2, farm.window.getHeight()/2), 'gif/signs/lose.gif')
 
-	label.setSize(20)
-	label.setFace('helvetica')
-	label.setStyle('bold')
-	label.draw(farm.window)
+	state.draw(farm.window)
 
 	message = Text(Point(1000, 800), 'Click anywhere to restart simulation.')
 	message.setSize(20)
 	message.setFace('helvetica')
 	message.setStyle('bold')
 	message.draw(farm.window)
-
-	farm.show_status()
+	farm.year = 0 # reset
 
 	farm.window.getMouse()
 	farm.window.close()
@@ -531,6 +491,7 @@ while(True):
 	for i in range(0, 4):
 		print('ROUND', i)
 		farm.run_round()
+		farm.year += 1
 
 		if farm.field_health <= 0 and farm.money <= 300:
 			conclusion(farm, win=False)
