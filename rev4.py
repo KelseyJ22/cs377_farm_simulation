@@ -37,10 +37,10 @@ class Farm:
 		self.button_bkgd_x = 700
 		self.button_bkgd_y = 0
 		self.button_bkgd_width = 800
-		self.button_bkgd_height = 230
-		self.button_bkgd_margin = 30
-		self.button_width = 200
-		self.button_height = 170
+		self.button_bkgd_height = 250
+		self.button_bkgd_margin = 20
+		self.button_width = 240
+		self.button_height = 150
 		self.button_x_center = self.button_width / 2
 		self.img_y_center = self.button_bkgd_margin + 70
 		self.txt_y_center = self.button_bkgd_margin + 180
@@ -140,7 +140,8 @@ class Farm:
 
 		else:
 			self.summary['money'][0].append('Increased by $100 because polyculture farming is less productive')
-			self.money += 100 # if you just do polyculture without fertilizer you will break even
+			self.money += 100
+			self.summary['money'][1] += 100
 			self.summary['field health'][0].append('Increased by 10% because polyculture helps cultivate healthy soil')
 			self.field_health += 10
 			self.summary['field health'][1] += 10
@@ -163,7 +164,7 @@ class Farm:
 			self.summary['field health'][0].append('Increased by 20% because fertilizer increases the nutrients in your soil')
 			self.field_health += 20
 			self.summary['field health'][1] += 20
-			self.summary['algae'][0].append('Coverage increased by 50% because fertilizer runoff feeds algae growth')
+			self.summary['algae'][0].append('Coverage increased by 2x because fertilizer runoff feeds algae growth')
 			self.algae_coverage *= 2 # exponential
 			self.summary['algae'][1] *= 2
 
@@ -198,10 +199,12 @@ class Farm:
 		background.draw(self.window)
 		text = ''
 		for key in self.summary:
-			if key == 'field health' or key == 'pond health' or key == 'algae':
+			if key == 'field health' or key == 'pond health':
 				text += key.upper() + ': ' + str(self.summary[key][1]) + '%\n'
 			elif key == 'money':
 				text += key.upper() + ': $' + str(self.summary[key][1]) + '\n'
+			elif key == 'algae':
+				text += key.upper() + ': a factor of ' + str(self.summary[key][1]) + '\n'
 
 			if len(self.summary[key][0]) == 0:
 				text += 'No change this iteration\n'
@@ -341,10 +344,6 @@ class Farm:
 
 
 	def display(self):
-		year = 'gif/y' + str(self.year) + '.gif'
-		year_label = Image(Point(10, 800), year)
-		year_label.draw(self.window)
-
 		if self.mono: # monoculture
 			if self.pond_health > 50: # pond is healthy
 				if self.field_health > 50: # field is healthy
@@ -388,13 +387,17 @@ class Farm:
 					img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/poly-bad-algae.gif')
 
 		img.draw(self.window)
+
+		year = 'gif/y' + str(self.year) + '.gif'
+		year_label = Image(Point(100, 750), year)
+		year_label.draw(self.window)
 		self.draw_buttons()
 
 		self.show_status()
 
 
 	def show_status(self):
-		background = Rectangle(Point(0, 0), Point(250, 250))
+		background = Rectangle(Point(0, 0), Point(250, 210))
 		background.setFill('white')
 		background.setOutline('white')
 		background.draw(self.window)
@@ -474,7 +477,7 @@ def conclusion(farm, win):
 
 	state.draw(farm.window)
 
-	message = Text(Point(1000, 800), 'Click anywhere to restart simulation.')
+	message = Text(Point(farm.window.getWidth()/2, 800), 'Click anywhere to restart simulation.')
 	message.setSize(20)
 	message.setFace('helvetica')
 	message.setStyle('bold')
