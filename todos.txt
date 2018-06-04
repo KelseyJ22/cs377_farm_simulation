@@ -1,2 +1,3 @@
-- add year labels
-- resize signs at beginning
+- make sure it quits if health <= 0
+- add "continue" button on info screen
+- clicked versions in tutorial mode
