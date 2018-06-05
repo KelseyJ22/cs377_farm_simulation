@@ -197,7 +197,7 @@ class Farm:
 		self.summary['money'][1] -= 100
 
 		if self.mono:
-			self.summary['money'][0].append('Increased by $150 because monoculture farming has high financia returns')
+			self.summary['money'][0].append('Increased by $150 because monoculture farming has high financial returns')
 			self.money += 150
 			self.summary['money'][1] += 150
 			self.summary['field health'][0].append('Declined by 50% because monoculture extracts nutrients from the soil')
@@ -244,13 +244,16 @@ class Farm:
 			self.money -= 300
 			self.summary['money'][1] -= 300
 			self.summary['money'][0].append('Decreased by $300 because your soil failed and had to be replaced')
+			self.field_health = 100 # reset
+			self.summary['field health'][1] = 100
+			self.summary['field health'][0].append('Reset to full health because you bought new land')
 
 		if self.field_health > 100:
 			self.field_health = 100
 
 		if self.pond_health <= 0:
 			self.pond_health = 0 # prevent from going negative
-			self.summary['pond health'][0].append('Your pond died due to algae overgrowth, suffocating other plants and starving the animals that depended on them')
+			self.summary['pond health'][0].append('Your pond died due to algae overgrowth, suffocating other \n plants and starving the animals that depended on them')
 
 
 	def run_round(self):
@@ -551,12 +554,11 @@ def conclusion(farm, win):
 
 	state.draw(farm.window)
 
-	message = Text(Point(farm.window.getWidth()/2 + 200, 800), 'Click anywhere to restart simulation.')
+	message = Text(Point(farm.window.getWidth()/2 + 300, 800), 'Click anywhere to restart simulation.')
 	message.setSize(20)
 	message.setFace('helvetica')
 	message.setStyle('bold')
 	message.draw(farm.window)
-	farm.year = 0 # reset
 
 	farm.window.getMouse()
 	farm.window.close()
