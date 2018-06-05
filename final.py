@@ -72,7 +72,7 @@ class Farm:
 		mono_poly = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/farm-style.gif')
 		mono_poly.draw(self.window)
 
-		continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+		continue_button = Image(Point(self.window.getWidth()/2-10, 750), 'gif/mini_continue.gif')
 		continue_button.draw(self.window)
 
 		while(True):
@@ -82,7 +82,7 @@ class Farm:
 				mono_poly = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/farm-style.gif')
 				mono_poly.draw(self.window)
 
-				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button = Image(Point(self.window.getWidth()/2-10, 750), 'gif/mini_continue.gif')
 				continue_button.draw(self.window)
 
 				mono = Image(Point(self.window.getWidth()/2-221, self.window.getHeight()/2-150), 'gif/mono-selected.gif')
@@ -93,13 +93,13 @@ class Farm:
 				mono_poly = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/farm-style.gif')
 				mono_poly.draw(self.window)
 
-				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button = Image(Point(self.window.getWidth()/2-10, 750), 'gif/mini_continue.gif')
 				continue_button.draw(self.window)
 
 				mono = Image(Point(self.window.getWidth()/2+170, self.window.getHeight()/2-150), 'gif/poly-selected.gif')
 				mono.draw(self.window)
 
-			elif self.in_button(click, [Point(self.window.getWidth()/2 - 150, 655 - 37), Point(self.window.getWidth()/2 + 150, 655 + 37)]):
+			elif self.in_button(click, [Point(self.window.getWidth()/2 - 60, 750 - 10), Point(self.window.getWidth()/2 + 50, 750 + 10)]):
 				break
 		
 		# choose fertilizer
@@ -109,7 +109,7 @@ class Farm:
 		fertilizer = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/fertilizers.gif')
 		fertilizer.draw(self.window)	
 
-		continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+		continue_button = Image(Point(self.window.getWidth()/2-10, 750), 'gif/mini_continue.gif')
 		continue_button.draw(self.window)
 
 		while(True):
@@ -119,7 +119,7 @@ class Farm:
 				fertilizer = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/fertilizers.gif')
 				fertilizer.draw(self.window)	
 
-				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button = Image(Point(self.window.getWidth()/2-10, 750), 'gif/mini_continue.gif')
 				continue_button.draw(self.window)
 				fert = Image(Point(self.window.getWidth()/2-200, self.window.getHeight()/2-140), 'gif/yes-fert-selected.gif')
 				fert.draw(self.window)
@@ -129,12 +129,12 @@ class Farm:
 				fertilizer = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/fertilizers.gif')
 				fertilizer.draw(self.window)	
 
-				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button = Image(Point(self.window.getWidth()/2-10, 750), 'gif/mini_continue.gif')
 				continue_button.draw(self.window)
 				fert = Image(Point(self.window.getWidth()/2+200, self.window.getHeight()/2-140), 'gif/no-fert-selected.gif')
 				fert.draw(self.window)
 				
-			elif self.in_button(click, [Point(self.window.getWidth()/2 - 150, 655 - 37), Point(self.window.getWidth()/2 + 150, 655 + 37)]):
+			elif self.in_button(click, [Point(self.window.getWidth()/2 - 60, 750 - 10), Point(self.window.getWidth()/2 + 50, 750 + 10)]):
 				break
 
 		# choose pesticides
@@ -144,7 +144,7 @@ class Farm:
 		pesticide = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/pesticides.gif')
 		pesticide.draw(self.window)	
 
-		continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+		continue_button = Image(Point(self.window.getWidth()/2-10, 750), 'gif/mini_continue.gif')
 		continue_button.draw(self.window)
 		
 		while(True):
@@ -154,7 +154,7 @@ class Farm:
 				pesticide = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/pesticides.gif')
 				pesticide.draw(self.window)	
 
-				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button = Image(Point(self.window.getWidth()/2-10, 750), 'gif/mini_continue.gif')
 				continue_button.draw(self.window)
 		
 				pest = Image(Point(self.window.getWidth()/2-210, self.window.getHeight()/2-140), 'gif/yes-pest-selected.gif')
@@ -165,13 +165,13 @@ class Farm:
 				pesticide = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/pesticides.gif')
 				pesticide.draw(self.window)	
 
-				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button = Image(Point(self.window.getWidth()/2-10, 750), 'gif/mini_continue.gif')
 				continue_button.draw(self.window)
 		
 				pest = Image(Point(self.window.getWidth()/2+190, self.window.getHeight()/2-140), 'gif/no-pest-selected.gif')
 				pest.draw(self.window)
 
-			elif self.in_button(click, [Point(self.window.getWidth()/2 - 150, 655 - 37), Point(self.window.getWidth()/2 + 150, 655 + 37)]):
+			elif self.in_button(click, [Point(self.window.getWidth()/2 - 60, 750 - 10), Point(self.window.getWidth()/2 + 50, 750 + 10)]):
 				break
 
 		# run round
@@ -197,17 +197,17 @@ class Farm:
 		self.summary['money'][1] -= 100
 
 		if self.mono:
-			self.summary['money'][0].append('Increased by $300 because monoculture farming has high financia returns')
+			self.summary['money'][0].append('Increased by $150 because monoculture farming has high financia returns')
 			self.money += 150
-			self.summary['money'][1] += 300
+			self.summary['money'][1] += 150
 			self.summary['field health'][0].append('Declined by 50% because monoculture extracts nutrients from the soil')
 			self.field_health -= 50
 			self.summary['field health'][1] -= 50
 
 		else:
-			self.summary['money'][0].append('Increased by $100 because polyculture farming is less productive')
+			self.summary['money'][0].append('Increased by $50 because polyculture farming is less productive')
 			self.money += 50
-			self.summary['money'][1] += 100
+			self.summary['money'][1] += 50
 			self.summary['field health'][0].append('Increased by 10% because polyculture helps cultivate healthy soil')
 			self.field_health += 10
 			self.summary['field health'][1] += 10
@@ -219,7 +219,7 @@ class Farm:
 			self.summary['field health'][0].append('Declined by 20% because pesticides poison valuable insects as well as pests')
 			self.field_health -= 20
 			self.summary['field health'][1] -= 20
-			self.summary['algae'][0].append('Coverage increased by 50% because pesticides disrupt the balance of the ecosystem')
+			self.summary['algae'][0].append('Coverage increased by 2x because pesticides disrupt the ecosystem')
 			self.algae_coverage *= 2 # exponential
 			self.summary['algae'][1] *= 2
 
@@ -289,7 +289,7 @@ class Farm:
 		self.summary = {'money':[[], 0], 'field health':[[], 0], 'pond health':[[], 0], 'algae':[[], 1]} # reset for next round
 		
 		message = Text(Point(self.window.getWidth()/2, 700), 'Click anywhere to continue.')
-		message.setSize(30)
+		message.setSize(20)
 		message.setFace('helvetica')
 		message.setStyle('bold')
 		message.draw(self.window)
@@ -338,10 +338,16 @@ class Farm:
 
 		elif self.in_button(click, self.buttons['mono_poly']):
 			button_x = button_x_init + 2 * self.button_width
-			background = Rectangle(Point(button_x, button_y), Point(button_x + self.button_width, button_y + self.button_height))
+			background = Rectangle(Point(button_x, button_y), Point(button_x + self.button_width, button_y + self.button_height + 60))
 			background.setFill('white')
 			background.setOutline('white')
 			background.draw(self.window)
+
+			text = Text(Point(button_x + self.button_x_center, self.txt_y_center), 'Polyculture farming will earn \n less money, but will \n take care of the land.')
+			text.setSize(16)
+			text.setFace('helvetica')
+			text.draw(self.window)
+
 			if self.mono:
 				img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/poly.gif')
 				self.mono = False
@@ -545,7 +551,7 @@ def conclusion(farm, win):
 
 	state.draw(farm.window)
 
-	message = Text(Point(farm.window.getWidth()/2, 800), 'Click anywhere to restart simulation.')
+	message = Text(Point(farm.window.getWidth()/2 + 200, 800), 'Click anywhere to restart simulation.')
 	message.setSize(20)
 	message.setFace('helvetica')
 	message.setStyle('bold')
