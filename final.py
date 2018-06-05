@@ -57,7 +57,13 @@ class Farm:
 		intro = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/intro.gif')
 		intro.draw(self.window)
 
-		self.window.getMouse()
+		continue_button = Image(Point(self.window.getWidth()/2, 650), 'gif/continue.gif')
+		continue_button.draw(self.window)
+
+		while(True):
+			click = self.window.getMouse()
+			if self.in_button(click, [Point(self.window.getWidth()/2 - 150, 650 - 37), Point(self.window.getWidth()/2 + 150, 650 + 37)]):
+				break
 
 		# choose farm style
 		img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/farm-empty.gif')
@@ -66,13 +72,34 @@ class Farm:
 		mono_poly = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/farm-style.gif')
 		mono_poly.draw(self.window)
 
+		continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+		continue_button.draw(self.window)
+
 		while(True):
 			click = self.window.getMouse()
 			if self.in_button(click, [Point(440, 190), Point(610, 370)]):
-					self.mono = True
-					break
+				self.mono = True
+				mono_poly = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/farm-style.gif')
+				mono_poly.draw(self.window)
+
+				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button.draw(self.window)
+
+				mono = Image(Point(self.window.getWidth()/2-221, self.window.getHeight()/2-150), 'gif/mono-selected.gif')
+				mono.draw(self.window)	
+				
 			elif self.in_button(click, [Point(840, 190), Point(1005, 370)]):
 				self.mono = False
+				mono_poly = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/farm-style.gif')
+				mono_poly.draw(self.window)
+
+				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button.draw(self.window)
+
+				mono = Image(Point(self.window.getWidth()/2+170, self.window.getHeight()/2-150), 'gif/poly-selected.gif')
+				mono.draw(self.window)
+
+			elif self.in_button(click, [Point(self.window.getWidth()/2 - 150, 655 - 37), Point(self.window.getWidth()/2 + 150, 655 + 37)]):
 				break
 		
 		# choose fertilizer
@@ -82,15 +109,33 @@ class Farm:
 		fertilizer = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/fertilizers.gif')
 		fertilizer.draw(self.window)	
 
+		continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+		continue_button.draw(self.window)
+
 		while(True):
 			click = self.window.getMouse()
 			if self.in_button(click, [Point(440, 190), Point(610, 370)]):
 				self.fertilizer = True
-				break
+				fertilizer = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/fertilizers.gif')
+				fertilizer.draw(self.window)	
+
+				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button.draw(self.window)
+				fert = Image(Point(self.window.getWidth()/2-200, self.window.getHeight()/2-140), 'gif/yes-fert-selected.gif')
+				fert.draw(self.window)
+				
 			elif self.in_button(click, [Point(840, 190), Point(1005, 370)]):
 				self.fertilizer = False
-				break
+				fertilizer = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/fertilizers.gif')
+				fertilizer.draw(self.window)	
 
+				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button.draw(self.window)
+				fert = Image(Point(self.window.getWidth()/2+200, self.window.getHeight()/2-140), 'gif/no-fert-selected.gif')
+				fert.draw(self.window)
+				
+			elif self.in_button(click, [Point(self.window.getWidth()/2 - 150, 655 - 37), Point(self.window.getWidth()/2 + 150, 655 + 37)]):
+				break
 
 		# choose pesticides
 		img = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/farm-empty.gif')
@@ -98,14 +143,35 @@ class Farm:
 
 		pesticide = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/pesticides.gif')
 		pesticide.draw(self.window)	
+
+		continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+		continue_button.draw(self.window)
 		
 		while(True):
 			click = self.window.getMouse()
 			if self.in_button(click, [Point(440, 190), Point(610, 370)]):
 				self.pesticide = True
-				break
+				pesticide = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/pesticides.gif')
+				pesticide.draw(self.window)	
+
+				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button.draw(self.window)
+		
+				pest = Image(Point(self.window.getWidth()/2-210, self.window.getHeight()/2-140), 'gif/yes-pest-selected.gif')
+				pest.draw(self.window)
+				
 			elif self.in_button(click, [Point(840, 190), Point(1005, 370)]):
 				self.pesticide = False
+				pesticide = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/signs/pesticides.gif')
+				pesticide.draw(self.window)	
+
+				continue_button = Image(Point(self.window.getWidth()/2, 655), 'gif/continue.gif')
+				continue_button.draw(self.window)
+		
+				pest = Image(Point(self.window.getWidth()/2+190, self.window.getHeight()/2-140), 'gif/no-pest-selected.gif')
+				pest.draw(self.window)
+
+			elif self.in_button(click, [Point(self.window.getWidth()/2 - 150, 655 - 37), Point(self.window.getWidth()/2 + 150, 655 + 37)]):
 				break
 
 		# run round
@@ -132,7 +198,7 @@ class Farm:
 
 		if self.mono:
 			self.summary['money'][0].append('Increased by $300 because monoculture farming has high financia returns')
-			self.money += 300
+			self.money += 150
 			self.summary['money'][1] += 300
 			self.summary['field health'][0].append('Declined by 50% because monoculture extracts nutrients from the soil')
 			self.field_health -= 50
@@ -140,7 +206,7 @@ class Farm:
 
 		else:
 			self.summary['money'][0].append('Increased by $100 because polyculture farming is less productive')
-			self.money += 100
+			self.money += 50
 			self.summary['money'][1] += 100
 			self.summary['field health'][0].append('Increased by 10% because polyculture helps cultivate healthy soil')
 			self.field_health += 10
