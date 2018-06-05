@@ -346,18 +346,24 @@ class Farm:
 			background.setOutline('white')
 			background.draw(self.window)
 
-			text = Text(Point(button_x + self.button_x_center, self.txt_y_center), 'Polyculture farming will earn \n less money, but will \n take care of the land.')
-			text.setSize(16)
-			text.setFace('helvetica')
-			text.draw(self.window)
 
 			if self.mono:
 				img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/poly.gif')
 				self.mono = False
+
+				text = Text(Point(button_x + self.button_x_center, self.txt_y_center), 'Polyculture farming will earn \n less money, but will \n take care of the land.')
+				text.setSize(16)
+				text.setFace('helvetica')
+				text.draw(self.window)
 			else:
 				img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/mono.gif')
 				self.mono = True
-			img.draw(self.window)
+
+				text = Text(Point(button_x + self.button_x_center, self.txt_y_center), 'Monoculture farming will earn \n more money, but will \n damage the land in the long run.')
+				text.setSize(16)
+				text.setFace('helvetica')
+				text.draw(self.window)
+				img.draw(self.window)
 
 
 	def make_choices(self):
