@@ -264,10 +264,9 @@ class Farm:
 
 
 	def display_summary(self):
-		background = Rectangle(Point(self.window.getWidth()/2-400, self.window.getHeight()/2-400), Point(self.window.getWidth()/2+400, self.window.getHeight()/2+400))
-		background.setFill('white')
-		background.setOutline('white')
+		background = Image(Point(self.window.getWidth()/2, self.window.getHeight()/2), 'gif/sign.gif')
 		background.draw(self.window)
+
 		text = ''
 		for key in self.summary:
 			if key == 'field health' or key == 'pond health':
@@ -284,14 +283,14 @@ class Farm:
 					text += info + '\n'
 			text += '\n'
 
-		message = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2), text)
+		message = Text(Point(self.window.getWidth()/2, self.window.getHeight()/2 - 100), text)
 		message.setSize(20)
 		message.setFace('helvetica')
 		message.draw(self.window)
 
 		self.summary = {'money':[[], 0], 'field health':[[], 0], 'pond health':[[], 0], 'algae':[[], 1]} # reset for next round
 		
-		message = Text(Point(self.window.getWidth()/2, 700), 'Click anywhere to continue.')
+		message = Text(Point(self.window.getWidth()/2, 600), 'Click anywhere to continue.')
 		message.setSize(20)
 		message.setFace('helvetica')
 		message.setStyle('bold')
@@ -355,6 +354,7 @@ class Farm:
 				text.setSize(16)
 				text.setFace('helvetica')
 				text.draw(self.window)
+				img.draw(self.window)
 			else:
 				img = Image(Point(button_x + self.button_x_center, self.img_y_center), 'gif/mono.gif')
 				self.mono = True
